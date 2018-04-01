@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Swashbuckle.AspNetCore.SwaggerGen.Test
 {
@@ -40,6 +41,28 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
         public void AcceptsNothing()
         { }
 
+        public void AcceptsModelBoundParams(int paramWithNoAttributes)
+        { }
+
+        // Use this version when https://github.com/aspnet/Mvc/issues/7435 is resolved
+        //public void AcceptsModelBoundParams(
+        //    int paramWithNoAttributes,
+        //    [BindRequired]int paramWithBindRequired)
+        //{ }
+
+        public void AcceptsDataAnnotatedParams(
+            int paramWithNoAttributes,
+            [Required]int paramWithRequiredAndNonNullDefault,
+            [Required]string paramWithRequiredAndNullDefault)
+        { }
+
+
+        public void AcceptsModelBoundType(ModelBoundType param)
+        { }
+
+        public void AcceptsDataAnnotatedType(DataAnnotatedType param)
+        { }
+
         public void AcceptsStringFromRoute([FromRoute]string param)
         { }
 
@@ -47,9 +70,6 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
         { }
 
         public void AcceptsIntegerFromQuery([FromQuery]int param)
-        { }
-
-        public void AcceptsComplexTypeFromQuery([FromQuery]ComplexType param)
         { }
 
         public void AcceptsArrayFromQuery([FromQuery]IEnumerable<string> param)
@@ -70,7 +90,7 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
         public void AcceptsUnboundStringParameter(string param)
         { }
 
-        public void AcceptsUnboundComplexParameter(ComplexType param)
+        public void AcceptsUnboundComplexType(ComplexType param)
         { }
 
         public void AcceptsCancellationToken(CancellationToken cancellationToken)

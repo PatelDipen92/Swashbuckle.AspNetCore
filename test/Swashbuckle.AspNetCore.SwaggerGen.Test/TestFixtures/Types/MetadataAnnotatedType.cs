@@ -6,18 +6,27 @@ namespace Swashbuckle.AspNetCore.SwaggerGen.Test
     [ModelMetadataType(typeof(MetadataType))]
     public class MetadataAnnotatedType
     {
-        public int RangeProperty { get; set; }
+        public int PropertyWithRequiredAndNonNullDefault { get; set; }
 
-        public string PatternProperty { get; set; }
+        public string PropertyWithRequiredAndNullDefault { get; set; }
+
+        public int PropertyWithRange { get; set; }
+
+        public string PropertyWithRegularExpression { get; set; }
     }
 
     public class MetadataType
     {
-        [Required, Range(1, 12)]
-        public int RangeProperty { get; set; }
+        [Required]
+        public int PropertyWithRequiredAndNonNullDefault { get; set; }
 
-        [Required, RegularExpression("^[3-6]?\\d{12,15}$")]
-        public string PatternProperty { get; set; }
+        [Required]
+        public string PropertyWithRequiredAndNullDefault { get; set; }
+
+        [Range(1, 12)]
+        public int PropertyWithRange { get; set; }
+
+        [RegularExpression("^[3-6]?\\d{12,15}$")]
+        public string PropertyWithRegularExpression { get; set; }
     }
-
 }

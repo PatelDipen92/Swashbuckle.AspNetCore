@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Swashbuckle.AspNetCore.SwaggerGen
@@ -17,11 +18,16 @@ namespace Swashbuckle.AspNetCore.SwaggerGen
 
         public static bool IsRequired(this ApiParameterDescription parameterDescription)
         {
-            if (parameterDescription.RouteInfo != null)
-                return !parameterDescription.RouteInfo.IsOptional;
+            var modelMetadata = parameterDescription.ModelMetadata;
 
-            if (parameterDescription.ModelMetadata != null)
-                return parameterDescription.ModelMetadata.IsRequired;
+            if (parameterDescription.RouteInfo?.IsOptional == false)
+                return true;
+
+            if (modelMetadata?.IsBindingRequired == true)
+                return true;
+
+            if (modelMetadata?.IsRequired == true && !parameterDescription.Type.GetTypeInfo().IsValueType)
+                return true;
 
             return false;
         }

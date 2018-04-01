@@ -13,7 +13,7 @@ namespace Swashbuckle.AspNetCore.SwaggerGen
         {
             return jsonProperty.Required == Newtonsoft.Json.Required.AllowNull
                 || jsonProperty.Required == Newtonsoft.Json.Required.Always
-                || jsonProperty.HasAttribute<RequiredAttribute>();
+                || (jsonProperty.HasAttribute<RequiredAttribute>() && !jsonProperty.PropertyType.GetTypeInfo().IsValueType);
         }
 
         internal static bool IsObsolete(this JsonProperty jsonProperty)
